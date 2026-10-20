@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import fc from "fast-check";
 import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -36,5 +37,15 @@ describe("_headers", () => {
     mkdirSync(join(out, "docs"));
     for (const f of ["index.html", "docs/a.html", "index.txt"]) writeFileSync(join(out, f), "");
     expect(htmlFiles(out).map((f) => f.slice(out.length + 1).replaceAll("\\", "/")).sort()).toEqual(["docs/a.html", "index.html"]);
+  });
+
+  it("hashes exactly the inline scripts of any page, whatever surrounds them", () => {
+    const text = fc.string().filter((s) => !s.toLowerCase().includes("</script"));
+    fc.assert(
+      fc.property(fc.array(fc.tuple(text, fc.boolean())), text, (scripts, filler) => {
+        const html = scripts.map(([body, external]) => (external ? `<script src="/x.js">${body}</script>` : `<script>${body}</script>`)).join(filler.replaceAll("<", ""));
+        expect(inlineScriptHashes(html)).toEqual(scripts.filter(([, external]) => !external).map(([body]) => sha(body)));
+      }),
+    );
   });
 });
