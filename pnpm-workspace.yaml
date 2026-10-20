@@ -9,3 +9,5 @@ trustPolicy: no-downgrade
 trustPolicyExclude:
   - "@babel/core@7.29.7"
   - "semver@6.3.1"
+# Exact versions in package.json, like aedis-ui.
+savePrefix: ""

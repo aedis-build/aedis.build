@@ -15,7 +15,7 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       // The site's own code. components/ui, lib and styles are aedis-ui registry copies, tested in aedis-ui.
-      include: ["app/**/*.tsx", "content/**", "scripts/**"],
+      include: ["app/**/*.tsx", "components/site/**", "content/**", "scripts/**"],
       // Cobertura XML is what the Aedis Platform coverage gate reads.
       reporter: ["text-summary", "cobertura"],
       thresholds: { lines: 95, branches: 85 },

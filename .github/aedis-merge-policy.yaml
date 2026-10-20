@@ -15,6 +15,7 @@ humanRequiredPaths:
   # Copies of aedis-ui registry items: they change only through the registry, never by hand.
   - "components/ui/**"
   - "lib/**"
+  - "hooks/**"
   - "styles/**"
 requiredSummaries: [coverage-summary, sast-summary]
 coverageNoRegression: true
