@@ -7,8 +7,10 @@ updates:
     cooldown:
       default-days: 7
     groups:
+      # majors arrive one per PR so a breaking upgrade can be reviewed and reverted alone
       npm:
         patterns: ["*"]
+        update-types: ["minor", "patch"]
     commit-message:
       prefix: "build(deps)"
   - package-ecosystem: github-actions
@@ -20,5 +22,6 @@ updates:
     groups:
       actions:
         patterns: ["*"]
+        update-types: ["minor", "patch"]
     commit-message:
       prefix: "build(deps)"
