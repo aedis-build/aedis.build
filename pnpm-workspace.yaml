@@ -1,0 +1,11 @@
+# Supply chain: no git, tarball or URL transitive dependencies; a new version must be a week old before it can be
+# installed (the same cooldown as Dependabot); an update can never resolve to a lower version than the lockfile has.
+blockExoticSubdeps: true
+minimumReleaseAge: 10080
+trustPolicy: no-downgrade
+# Dev-only packages flagged because an earlier-published version of another line had provenance and these do not
+# (semver 6.3.1 is the last of its line, @babel/core 7.29.7 comes from @vitejs/plugin-react and shadcn). aedis-ui
+# resolves the same versions. Remove each one when its dependents move to an attested release.
+trustPolicyExclude:
+  - "@babel/core@7.29.7"
+  - "semver@6.3.1"

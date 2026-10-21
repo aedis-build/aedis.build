@@ -1,0 +1,7 @@
+# Accepted DAST (ZAP) alerts, read by the Aedis Platform DAST action. Each item has pluginId, until and reason.
+accept:
+  - pluginId: 10055
+    until: 2027-01-31
+    reason: >-
+      CSP style-src 'unsafe-inline' comes from aedis-ui securityHeaders: components set inline style attributes.
+      Scripts stay hash-only. Narrowing it to style-src-attr is tracked in aedis-build/aedis-ui#78.
