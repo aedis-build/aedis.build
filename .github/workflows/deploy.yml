@@ -22,3 +22,7 @@ jobs:
     with:
       name: aedis.build-site
       url: https://aedis.build
+    # A reusable workflow only sees the secrets its caller passes, even in a job that declares the prd
+    # environment. inherit hands it CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID; the prd protection rules
+    # (main only, required reviewer) still gate the job that reads them.
+    secrets: inherit
