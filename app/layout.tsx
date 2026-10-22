@@ -27,9 +27,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-theme="brand">
+    <html lang="en">
       <body className="min-h-screen antialiased">
         <SiteHeader
+          className="shadow-[inset_0_-1px_0_var(--hairline)]"
           brand={
             <span className="flex items-center gap-2 text-title-3 font-bold">
               <Keystone size={28} />
@@ -37,10 +38,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </span>
           }
           items={nav}
-          actions={<Button render={<a href="/#start" />}>Get started</Button>}
+          actions={<Button className="rounded-full px-4.5 font-semibold" render={<a href="/#start" />}>Get started</Button>}
         />
         {children}
-        <SiteFooter links={footer}>Apache-2.0. Open source, no paid tier.</SiteFooter>
+        <SiteFooter className="border-hairline text-footnote" links={footer}>Apache-2.0. Open source, no paid tier.</SiteFooter>
       </body>
     </html>
   );
