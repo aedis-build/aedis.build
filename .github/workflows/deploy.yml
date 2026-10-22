@@ -14,7 +14,7 @@ permissions: {}
 
 jobs:
   deploy:
-    uses: aedis-build/aedis-platform/.github/workflows/deploy-static.yml@8afb428ee5cea69821a271c30a83ca0f2adab3c5 # feat/deploy-static (aedis-platform#49)
+    uses: aedis-build/aedis-platform/.github/workflows/deploy-static.yml@65aaf48027fac46d8ab6298e5cbdb63df119f1de # main (aedis-platform#49)
     permissions:
       contents: read
       id-token: write

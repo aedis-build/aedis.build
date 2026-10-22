@@ -16,7 +16,7 @@ permissions: {}
 
 jobs:
   aedis:
-    uses: aedis-build/aedis-platform/.github/workflows/aedis-ci.yml@8afb428ee5cea69821a271c30a83ca0f2adab3c5 # feat/deploy-static (aedis-platform#49)
+    uses: aedis-build/aedis-platform/.github/workflows/aedis-ci.yml@65aaf48027fac46d8ab6298e5cbdb63df119f1de # main (aedis-platform#49)
     permissions:
       contents: read
       actions: read
@@ -33,4 +33,4 @@ jobs:
       sast-extra-configs: p/nextjs
       dast-start: "pnpm build && (WRANGLER_SEND_METRICS=false pnpm start > site.log 2>&1 &)"
       dast-fail-on: Medium
-      platform-ref: 8afb428ee5cea69821a271c30a83ca0f2adab3c5
+      platform-ref: 65aaf48027fac46d8ab6298e5cbdb63df119f1de
