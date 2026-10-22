@@ -1,0 +1,36 @@
+# Single quality pipeline of the site: calls aedis-ci from Aedis Platform (Conventional Commits, tests with the
+# 95/85 coverage gate and no regression, typecheck and static build, SAST with the Aedis and Next.js rules, CodeQL
+# security-extended, REUSE, and DAST against the site served by the Cloudflare runtime, failing on Medium).
+# The pipeline belongs to the platform; this file only holds the trigger, the permissions and the site's parameters.
+# On pull requests it runs for any base, so stacked pull requests are validated too.
+name: aedis-ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  schedule:
+    - cron: "29 5 * * 2"
+
+permissions: {}
+
+jobs:
+  aedis:
+    uses: aedis-build/aedis-platform/.github/workflows/aedis-ci.yml@8afb428ee5cea69821a271c30a83ca0f2adab3c5 # feat/deploy-static (aedis-platform#49)
+    permissions:
+      contents: read
+      actions: read
+      packages: read
+      security-events: write
+      id-token: write
+    with:
+      language: node
+      min-line: 95
+      min-branch: 85
+      no-regression: true
+      check-scripts: typecheck build
+      codeql-queries: security-extended
+      sast-extra-configs: p/nextjs
+      dast-start: "pnpm build && (WRANGLER_SEND_METRICS=false pnpm start > site.log 2>&1 &)"
+      dast-fail-on: Medium
+      platform-ref: 8afb428ee5cea69821a271c30a83ca0f2adab3c5
