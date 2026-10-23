@@ -64,16 +64,41 @@ export function shareProblems(path: string, html: string, exists: (file: string)
   return problems;
 }
 
+/**
+ * What a page lacks for search engines and assistants (aedis.build#13): its entry in the sitemap, the llms.txt link in
+ * its head, and JSON-LD that parses and names the website.
+ */
+export function discoveryProblems(path: string, html: string, sitemap: string): string[] {
+  const problems: string[] = [];
+  if (!sitemap.includes(`<loc>${ORIGIN}${path}</loc>`)) problems.push(`${path}: not in sitemap.xml`);
+  const head = html.slice(0, html.indexOf("</head>"));
+  const link = /<link rel="alternate" type="text\/plain"[^>]*>/.exec(head)?.[0] ?? "";
+  if (!link.includes(`href="${ORIGIN}/llms.txt"`) || !link.includes('title="llms.txt"')) problems.push(`${path}: no llms.txt link in the head`);
+  const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  try {
+    const types = blocks.flatMap(([, json]) => (JSON.parse(json) as { "@graph"?: { "@type": string }[] })["@graph"]?.map((n) => n["@type"]) ?? []);
+    if (!types.includes("WebSite")) problems.push(`${path}: no JSON-LD WebSite`);
+  } catch {
+    problems.push(`${path}: JSON-LD does not parse`);
+  }
+  return problems;
+}
+
 // The CLI entry: `tsx scripts/headers.ts out` after `next build`.
 /* v8 ignore start */
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const out = process.argv[2] ?? "out";
   const pages = htmlFiles(out);
-  // Every page but the error pages must unfurl with its card (aedis.build#12): the build fails otherwise.
+  const sitemap = readFileSync(join(out, "sitemap.xml"), "utf8");
+  // Every page but the error pages must unfurl with its card (aedis.build#12) and be discoverable (#13): the build
+  // fails otherwise.
   const problems = pages
     .filter((f) => !/^\/(?:404|_not-found)$/.test(urlPath(out, f)))
-    .flatMap((f) => shareProblems(urlPath(out, f), readFileSync(f, "utf8"), (file) => existsSync(join(out, file))));
-  if (problems.length) throw new Error(`share tags:\n${problems.join("\n")}`);
+    .flatMap((f) => {
+      const html = readFileSync(f, "utf8");
+      return [...shareProblems(urlPath(out, f), html, (file) => existsSync(join(out, file))), ...discoveryProblems(urlPath(out, f), html, sitemap)];
+    });
+  if (problems.length) throw new Error(`share and discovery:\n${problems.join("\n")}`);
   writeFileSync(join(out, "_headers"), headersFile(pages.map((f) => readFileSync(f, "utf8"))));
 }
 /* v8 ignore stop */

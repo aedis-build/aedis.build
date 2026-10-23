@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { Beaver, type BeaverVariant } from "@/components/site/beaver";
+import { Beaver } from "@/components/site/beaver";
+import { JsonLd } from "@/components/site/json-ld";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +9,7 @@ import { CodeBlock } from "@/components/ui/code-block";
 import { Link } from "@/components/ui/link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { controls, controlsSource } from "@/content/controls";
+import { products } from "@/content/products";
 import { pageMetadata } from "@/content/share";
 
 // The home page keeps the bare site name as its title; the card says the rest.
@@ -35,33 +37,10 @@ const host = `public sealed class ApiHost : AedisApiHost
 
 const matrixColumns = ["#", "Control", "OWASP 2021", "NIST CSF 2.0", "ISO 27001 A.8", "MITRE ATT&CK"];
 
-const products: { variant: BeaverVariant; tag: string; title: string; description: string; repo: string }[] = [
-  {
-    variant: "dotnet",
-    tag: "Aedis .NET",
-    title: "An API or a worker",
-    description: ".NET packages: secure host, ports and adapters, messaging, secrets, signing. Moving cloud, broker or database is a package swap.",
-    repo: "aedis-dotnet",
-  },
-  {
-    variant: "ui",
-    tag: "Aedis UI",
-    title: "A screen",
-    description: "UI components from a shadcn-style registry. You copy the code into your app and own it.",
-    repo: "aedis-ui",
-  },
-  {
-    variant: "platform",
-    tag: "Aedis Platform",
-    title: "The delivery pipeline",
-    description: "Platform: conformance levels L1 to L3 and a policy-based merge gate for your repositories.",
-    repo: "aedis-platform",
-  },
-];
-
 export default function Home() {
   return (
     <main id="top">
+      <JsonLd path="/" />
       <section className="mx-auto flex max-w-6xl flex-wrap items-center gap-14 px-4 pt-22 pb-18">
         <div className="enter flex min-w-0 flex-[999_1_32rem] flex-col gap-6">
           <Badge variant="secondary" className="rounded-full border-transparent bg-accent-soft px-3 py-1.5 font-semibold text-link">

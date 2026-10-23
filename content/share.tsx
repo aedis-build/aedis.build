@@ -9,6 +9,9 @@ import { shareMetadata } from "@/lib/share-metadata";
 
 export const SITE = { origin: "https://aedis.build", name: "Aedis" };
 
+/** `<link rel="alternate" type="text/plain" title="llms.txt">` in every head: where agents find the docs as text. */
+export const llmsAlternate = { "text/plain": [{ url: `${SITE.origin}/llms.txt`, title: "llms.txt" }] };
+
 /** What a page's share card and link preview say. The art is the beaver of the page's product. */
 export type SharePage = { path: string; title: string; description: string; eyebrow: string; beaver: BeaverVariant; chips?: string[] };
 
@@ -68,11 +71,13 @@ export function shareImageFile(page: SharePage): string {
 export function pageMetadata(path: string): Metadata {
   const page = sharePages.find((p) => p.path === path);
   if (!page) throw new Error(`no share card for ${path}`);
-  return shareMetadata({
+  const metadata = shareMetadata({
     site: SITE,
     url: `${SITE.origin}${path}`,
     title: page.title,
     description: page.description,
     image: { url: `${SITE.origin}/og/${shareImageFile(page)}`, alt: `${page.title} · ${SITE.name}` },
   });
+  // A page's alternates replace the layout's: keep the llms.txt link next to the canonical one.
+  return { ...metadata, alternates: { ...metadata.alternates, types: llmsAlternate } };
 }
