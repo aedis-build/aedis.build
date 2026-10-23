@@ -28,7 +28,7 @@ describe("_headers", () => {
   });
 
   it("lets hashed build assets be cached for good", () => {
-    const assets = headersFile([]).split("/_next/static/*\n")[1];
+    const assets = headersFile([]).split("/_next/static/*\n")[1].split("/og/*\n")[0];
     expect(assets).toBe("  ! Cache-Control\n  Cache-Control: public, max-age=31536000, immutable\n");
   });
 
