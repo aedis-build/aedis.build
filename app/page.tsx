@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { Beaver, type BeaverVariant } from "@/components/site/beaver";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -6,6 +8,10 @@ import { CodeBlock } from "@/components/ui/code-block";
 import { Link } from "@/components/ui/link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { controls, controlsSource } from "@/content/controls";
+import { pageMetadata } from "@/content/share";
+
+// The home page keeps the bare site name as its title; the card says the rest.
+export const metadata: Metadata = { ...pageMetadata("/"), title: { absolute: "Aedis" } };
 
 const evidence = [
   "OpenSSF Scorecard",
