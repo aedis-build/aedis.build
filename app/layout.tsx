@@ -5,6 +5,7 @@ import { Keystone } from "@/components/site/keystone";
 import { Button } from "@/components/ui/button";
 import { SiteFooter } from "@/components/ui/site-footer";
 import { SiteHeader } from "@/components/ui/site-header";
+import { llmsAlternate } from "@/content/share";
 import "./globals.css";
 
 const nav = [
@@ -23,6 +24,7 @@ const footer = [
 export const metadata: Metadata = {
   title: { default: "Aedis", template: "%s · Aedis" },
   description: "The .NET framework whose security you can prove.",
+  alternates: { types: llmsAlternate },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
