@@ -20,7 +20,7 @@ const IMMUTABLE = ["  ! Cache-Control", "  Cache-Control: public, max-age=315360
  */
 export function headersFile(pages: string[]): string {
   const hashes = [...new Set(pages.flatMap(inlineScriptHashes))].sort();
-  const lines = Object.entries(securityHeaders({ hashes })).map(([name, value]) => `  ${name}: ${value}`);
+  const lines = Object.entries(securityHeaders({ hashes, imgSrc: ["https://cdn.aedis.build"] })).map(([name, value]) => `  ${name}: ${value}`);
   return [
     "/*",
     ...lines,

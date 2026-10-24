@@ -25,7 +25,7 @@ export const products: Product[] = [
     variant: "ui",
     tag: "Aedis UI",
     title: "A screen",
-    description: "UI components from a shadcn-style registry. You copy the code into your app and own it.",
+    description: "UI components from a signed registry. You copy the code into your app and own it.",
     repo: "aedis-ui",
     llms: "https://ui.aedis.build/llms.txt",
     language: ["TypeScript", "React"],
