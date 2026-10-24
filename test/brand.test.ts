@@ -8,8 +8,8 @@ import { kit, manifest, marks } from "@/scripts/brand";
 const SIZES = brandSizes;
 
 describe("brand kit", () => {
-  it("has a keystone, a beaver per product and the bot", () => {
-    expect(marks.map((m) => m.name)).toEqual(["keystone", "beaver-keystone", "beaver-dotnet", "beaver-ui", "beaver-platform", "beaver-actions", "bot"]);
+  it("has a keystone, a beaver per product and the two bots", () => {
+    expect(marks.map((m) => m.name)).toEqual(["keystone", "beaver-keystone", "beaver-dotnet", "beaver-ui", "beaver-platform", "beaver-actions", "bot", "bot-compliance"]);
   });
 
   it("lists every SVG and PNG of the kit in the manifest, under the versioned CDN path", () => {

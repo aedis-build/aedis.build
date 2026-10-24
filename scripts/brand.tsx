@@ -29,10 +29,14 @@ const centered = (w: number, h: number, inner: string) => `<g transform="transla
 // The bot badge sits inside the circle crop (its far edge is 472 px from the centre, under the 512 px radius).
 const BOT_BADGE = `<g transform="translate(740 740)"><circle r="150" fill="${NAVY}" stroke="${CREAM}" stroke-width="16"/><g fill="none" stroke="${GOLD}" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"><polyline points="-30,-50 -78,0 -30,50"/><polyline points="30,-50 78,0 30,50"/><line x1="16" y1="-66" x2="-16" y2="66"/></g></g>`;
 
+// The Compliance badge: a gold shield with a check, the mark of the app that approves what passes the merge policy.
+const COMPLIANCE_BADGE = `<g transform="translate(740 740)"><circle r="150" fill="${NAVY}" stroke="${CREAM}" stroke-width="16"/><path d="M0,-92 L74,-62 L74,8 C74,58 40,88 0,104 C-40,88 -74,58 -74,8 L-74,-62 Z" fill="${GOLD}" stroke="${DEEP}" stroke-width="10" stroke-linejoin="round"/><polyline points="-36,4 -8,34 42,-30" fill="none" stroke="${NAVY}" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+
 const drawings: Record<string, () => string> = {
   keystone: () => centered(640, 640, keystone(640)),
   ...Object.fromEntries((["keystone", "dotnet", "ui", "platform", "actions"] as const).map((v) => [`beaver-${v}`, () => centered(BEAVER_W, BEAVER_H, beaver(v))])),
   bot: () => centered(BEAVER_W, BEAVER_H, beaver("keystone")) + BOT_BADGE,
+  "bot-compliance": () => centered(BEAVER_W, BEAVER_H, beaver("keystone")) + COMPLIANCE_BADGE,
 };
 
 export const marks: Mark[] = brandMarks.map((m) => ({ ...m, draw: drawings[m.name] }));

@@ -15,7 +15,7 @@ const uses = [
   ["Keystone", "Organization avatars (GitHub, npm, NuGet), favicons, anything 64 px or smaller."],
   ["Beaver keystone", "The project's profile picture and social accounts."],
   ["Beaver per product", "The avatar of each product's repository, package or channel: dotnet, ui, platform, actions."],
-  ["Bot", "Automation that acts for Aedis, such as the Aedis Agent Coder app."],
+  ["Bots", "Automation that acts for Aedis: the Agent Coder app (code badge) and the Compliance app (shield badge)."],
 ];
 
 export default function Brand() {

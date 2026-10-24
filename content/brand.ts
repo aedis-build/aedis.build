@@ -11,6 +11,7 @@ export const brandMarks: BrandMark[] = [
     backgrounds: ["cream", "gold", "transparent"] as Background[],
   })),
   { name: "bot", label: "Aedis Agent Coder bot", backgrounds: ["gold", "cream"] },
+  { name: "bot-compliance", label: "Aedis Compliance bot", backgrounds: ["gold", "cream"] },
 ];
 
 /** The PNG sizes rasterized from every SVG. */
