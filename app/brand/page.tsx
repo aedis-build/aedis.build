@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/site/json-ld";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "@/components/ui/link";
-import { brandMarks as marks, brandSizes as SIZES } from "@/content/brand";
+import { BRAND_CDN, brandFile, brandMarks as marks, brandSizes as SIZES } from "@/content/brand";
 import { pageMetadata } from "@/content/share";
 
 export const metadata: Metadata = { ...pageMetadata("/brand"), title: "Brand kit" };
@@ -25,7 +25,7 @@ export default function Brand() {
       <section className="flex max-w-[44em] flex-col gap-4">
         <h1 className="text-[clamp(2.2rem,4.6vw,3.4rem)] leading-[1.05] font-bold tracking-[-0.03em]">Brand kit</h1>
         <p className="text-title-3 font-normal text-muted-foreground">
-          The keystone and the beaver, ready for avatars. Every file is square with room for a circle crop, as SVG and as PNG from 1024 to 32 px.
+          The keystone and the beaver, ready for avatars. Every file is square with room for a circle crop, as SVG and as PNG from 1024 to 32 px, served from cdn.aedis.build.
         </p>
       </section>
 
@@ -51,19 +51,19 @@ export default function Brand() {
             </CardHeader>
             <CardContent className="grid gap-4 sm:grid-cols-3">
               {mark.backgrounds.map((bg) => {
-                const base = `/brand/${mark.name}-${bg}`;
+                const url = (size?: number) => `${BRAND_CDN}/${brandFile(mark.name, bg, size)}`;
                 return (
                   <figure key={bg} className="flex flex-col gap-3">
                     <div className={`overflow-hidden rounded-lg border border-hairline ${SWATCH[bg]}`}>
-                      <img src={`${base}.svg`} alt={`${mark.label} on ${bg}`} width={1024} height={1024} className="aspect-square h-auto w-full" />
+                      <img src={url()} alt={`${mark.label} on ${bg}`} width={1024} height={1024} className="aspect-square h-auto w-full" />
                     </div>
                     <figcaption className="flex flex-wrap items-center gap-2 text-footnote">
                       <Badge variant="secondary">{bg}</Badge>
-                      <Link href={`${base}.svg`} download>
+                      <Link href={url()}>
                         SVG
                       </Link>
                       {SIZES.map((s) => (
-                        <Link key={s} href={`${base}-${s}.png`} download>
+                        <Link key={s} href={url(s)}>
                           {s}
                         </Link>
                       ))}

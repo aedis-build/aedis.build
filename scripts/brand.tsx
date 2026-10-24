@@ -1,10 +1,10 @@
 import { mkdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { Beaver, type BeaverVariant } from "@/components/site/beaver";
-import { type Background, type BrandMark, brandMarks } from "@/content/brand";
+import { type Background, BRAND_CDN, type BrandMark, brandFile, brandMarks, brandSizes } from "@/content/brand";
 
 const SIZE = 1024;
 const NAVY = "#1A2740";
@@ -43,16 +43,34 @@ export function avatar(mark: Mark, background: Background): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}" viewBox="0 0 ${SIZE} ${SIZE}" role="img" aria-label="${mark.label}">${bg}${mark.draw()}</svg>\n`;
 }
 
-/** Every file of the kit, by name: <mark>-<background>.svg. The PNGs are rasterized from these (README in the folder). */
+/** Every SVG of the kit, by its path under BRAND_CDN. The PNGs are rasterized from these. */
 export function kit(): Record<string, string> {
-  return Object.fromEntries(marks.flatMap((m) => m.backgrounds.map((b) => [`${m.name}-${b}.svg`, avatar(m, b)])));
+  return Object.fromEntries(marks.flatMap((m) => m.backgrounds.map((b) => [brandFile(m.name, b), avatar(m, b)])));
 }
 
-// `tsx scripts/brand.tsx public/brand` writes the SVGs.
+/** manifest.json: every mark with its SVG and PNG URLs, for tools and for people browsing the CDN. */
+export function manifest() {
+  return {
+    base: BRAND_CDN,
+    sizes: brandSizes,
+    marks: marks.map(({ name, label, backgrounds }) => ({
+      name,
+      label,
+      files: backgrounds.map((b) => ({ background: b, svg: brandFile(name, b), png: brandSizes.map((s) => brandFile(name, b, s)) })),
+    })),
+  };
+}
+
+// `tsx scripts/brand.tsx <dir>` writes the SVGs and manifest.json for the CDN; the PNGs are rasterized from them.
 /* v8 ignore start */
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
-  const out = process.argv[2] ?? "public/brand";
-  mkdirSync(out, { recursive: true });
-  for (const [file, svg] of Object.entries(kit())) writeFileSync(join(out, file), svg);
+  const out = process.argv[2];
+  if (!out) throw new Error("usage: tsx scripts/brand.tsx <output dir>");
+  for (const [file, svg] of Object.entries(kit())) {
+    mkdirSync(dirname(join(out, file)), { recursive: true });
+    writeFileSync(join(out, file), svg);
+  }
+  writeFileSync(join(out, "manifest.json"), `${JSON.stringify(manifest(), null, 2)}
+`);
 }
 /* v8 ignore stop */
