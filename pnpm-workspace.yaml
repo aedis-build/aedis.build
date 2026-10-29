@@ -11,3 +11,10 @@ trustPolicyExclude:
   - "semver@6.3.1"
 # Exact versions in package.json, like aedis-ui.
 savePrefix: ""
+
+# Transitive advisories in dev tooling (wrangler, shadcn, dotenvx), forced to the fixed releases once they are past
+# the release-age cooldown. Remove each line when the dependents move past the vulnerable range.
+overrides:
+  "undici@>=7.0.0 <7.30.1": 7.30.1
+  "systeminformation@<5.33.16": 5.33.16
+  "body-parser@>=2.0.0 <2.4.0": 2.4.0
