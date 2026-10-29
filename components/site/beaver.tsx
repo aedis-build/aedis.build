@@ -9,6 +9,7 @@ const variants = {
   dotnet: { tilt: -3, label: "Aedis beaver stacking hexagonal blocks" },
   ui: { tilt: 2, label: "Aedis beaver painting with a roller" },
   platform: { tilt: -2, label: "Aedis beaver carrying a toolbox and waving" },
+  actions: { tilt: 0, label: "Aedis beaver with a keystone backpack on a conveyor belt, thumbs up" },
 };
 
 export type BeaverVariant = keyof typeof variants;
@@ -27,6 +28,25 @@ export function Beaver({ variant = "keystone", size = 340 }: { variant?: BeaverV
           <line x1="206" y1="192" x2="220" y2="206" />
           <line x1="178" y1="220" x2="192" y2="236" />
         </g>
+        {variant === "actions" ? (
+          <g>
+            <rect x="2" y="262" width="236" height="12" rx="6" fill={c.navyLight} />
+            <g fill={c.gold} stroke="none">
+              {[14, 44, 74, 104, 134, 164, 194, 224].map((cx) => (
+                <circle key={cx} cx={cx} cy="268" r="3.5" />
+              ))}
+            </g>
+            <rect x="8" y="232" width="32" height="30" rx="2" fill={c.wood} />
+            <line x1="8" y1="244" x2="40" y2="244" stroke={c.woodDark} strokeWidth="2" />
+            <polygon points="16,224 32,224 30,232 18,232" fill={c.gold} strokeWidth="2" />
+            <polygon points="32,148 70,144 74,218 34,222" fill={c.wood} />
+            <polygon points="32,148 70,144 70,164 33,168" fill={c.woodDark} />
+            <polygon points="40,176 62,174 59,194 44,196" fill={c.gold} strokeWidth="2" />
+            <circle cx="51" cy="182" r="3" fill={c.deep} stroke="none" />
+            <rect x="49.5" y="183" width="3" height="7" fill={c.deep} stroke="none" />
+          </g>
+        ) : null}
+
         <polygon points="70,150 120,128 170,150 184,214 162,254 78,254 56,214" fill={c.navy} />
         <polygon points="70,150 56,214 96,196" fill={c.navyLight} stroke="none" />
         <polygon points="94,176 146,176 158,224 140,248 100,248 82,224" fill={c.cream} />
@@ -104,6 +124,18 @@ export function Beaver({ variant = "keystone", size = 340 }: { variant?: BeaverV
             <polygon points="38,186 50,190 48,202 36,200" fill={c.cream} strokeWidth="2" />
             <polygon points="166,160 176,150 190,118 200,124 182,166" fill={c.navy} />
             <polygon points="186,104 198,106 202,118 190,122 184,112" fill={c.cream} strokeWidth="2" />
+          </g>
+        ) : null}
+
+        {variant === "actions" ? (
+          <g>
+            <line x1="86" y1="148" x2="92" y2="200" stroke={c.woodDark} strokeWidth="7" />
+            <line x1="154" y1="148" x2="148" y2="200" stroke={c.woodDark} strokeWidth="7" />
+            <polygon points="74,166 86,170 82,202 70,200" fill={c.navy} />
+            <polygon points="70,198 82,200 82,210 70,208" fill={c.cream} strokeWidth="2" />
+            <polygon points="166,164 176,154 186,130 196,136 182,168" fill={c.navy} />
+            <polygon points="182,120 196,122 196,134 182,134" fill={c.cream} strokeWidth="2" />
+            <polygon points="187,110 193,110 193,121 187,121" fill={c.cream} strokeWidth="2" />
           </g>
         ) : null}
       </g>

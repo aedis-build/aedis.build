@@ -17,7 +17,7 @@ export type SharePage = { path: string; title: string; description: string; eyeb
 
 /**
  * Every page with a share card. Product pages join with their own beaver (ui, dotnet, platform) when they exist;
- * today the site is its home page.
+ * today the site is its home page and the brand kit.
  */
 export const sharePages: SharePage[] = [
   {
@@ -27,6 +27,14 @@ export const sharePages: SharePage[] = [
     eyebrow: ".NET framework · Open source",
     beaver: "keystone",
     chips: ["SLSA Build L3", "Signed releases"],
+  },
+  {
+    path: "/brand",
+    title: "Brand kit",
+    description: "The keystone and the beaver, ready for avatars: SVG and PNG from 1024 to 32 px.",
+    eyebrow: "Brand · Downloads",
+    beaver: "keystone",
+    chips: ["Keystone", "Beaver per product"],
   },
 ];
 

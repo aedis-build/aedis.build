@@ -32,7 +32,7 @@ describe("home", () => {
     expect(violations).toEqual([]);
   });
 
-  it.each(["keystone", "dotnet", "ui", "platform"] as const)("draws the %s beaver with a name", (variant) => {
+  it.each(["keystone", "dotnet", "ui", "platform", "actions"] as const)("draws the %s beaver with a name", (variant) => {
     render(<Beaver variant={variant} />);
     expect(screen.getByRole("img")).toHaveAccessibleName(/Aedis beaver/);
   });
